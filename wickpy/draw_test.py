@@ -93,10 +93,14 @@ y = r * np.sin(theta)
 c, s = np.cos(np.pi/2), np.sin(np.pi/2)
 R = np.array(((c, s), (s, c)))
 points = np.vstack((x,y)).T
+print(points)
 minn=-points.min(0)[1]
+print(minn)
 for i,p in enumerate(points):
+    points[i][1] += minn
+    #points[i][1] += 200
     points[i] = R@p.T
-    points[i][0] += 350+minn
+    points[i][0] += 350
     points[i][1] += 200
 print(points)
 cv2.polylines(img, np.int32([points]), 0, (0,0,0),1,lineType=cv2.LINE_AA)

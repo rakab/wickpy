@@ -4,7 +4,7 @@ import sympy as sp
 from io import BytesIO
 from PIL import ImageFont, ImageDraw, Image
 
-from . import draw_arc
+from . import draw_arc, draw_bubble
 
 __all__ = [
         'Graph',
@@ -75,7 +75,10 @@ class Graph(object):
                     else:
                         sagitta = [100]
                 for i in range(mult): #edge multiplicity
-                    draw_arc(self.img,n.xy,self[e].xy,sagitta[i],0,0)
+                    if n.name == e:
+                        draw_bubble(self.img,n.xy,i*2*np.pi/mult)
+                    else:
+                        draw_arc(self.img,n.xy,self[e].xy,sagitta[i],0,0)
                 self[e].edges[n.name] = 0
 
     def draw_img(self):

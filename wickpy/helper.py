@@ -64,3 +64,22 @@ def draw_arc(
         img, center, axes, angle,
         start_angle, end_angle, color,
         thickness, lineType, shift)
+
+def draw_bubble(img,pt,angle):
+    # polar equation
+    theta = np.linspace(-np.pi, np.pi, 3000)
+    r = 20+30/np.cosh(3*(theta+np.pi/2))
+    x = r * np.cos(theta)
+    y = r * np.sin(theta)
+    c, s = np.cos(angle), np.sin(angle)
+    R = np.array(((c, s), (s, c)))
+    points = np.vstack((x,y)).T
+    minn=-points.min(0)[1]
+    for i,p in enumerate(points):
+        points[i][1] += minn
+        points[i] = R@p.T
+        points[i][0] += pt[0]
+        points[i][1] += pt[1]
+    print(points)
+    return cv2.polylines(
+            img, np.int32([points]), 0, (0,0,0),1,lineType=cv2.LINE_AA)
