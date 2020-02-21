@@ -63,7 +63,7 @@ class Node(object):
     def __init__(self, name=''):
         self.name = name
         self.xy = (0,0)
-        self.edges = []
+        self.edges = {}
 
     @property
     def name(self):
@@ -95,14 +95,11 @@ class Node(object):
     def edges(self, edges):
         self.__edges = edges
 
-    def edge_mult(self, edge):
-        #for self.edges
-
     def add_edge(self, edge):
         if edge not in self.edges:
-            self.edges.append((edge,0))
+            self.edges[edge] = 0
         else:
-            self.edges[]
+            self.edges[edge] += 1
 
     def num_edges(self):
         return len(self.edges)

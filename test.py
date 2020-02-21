@@ -11,5 +11,6 @@ g.add_edge(('a','b'))
 g.add_edge(('b','c'))
 g.add_edge(('c','a'))
 g.add_edge(('a','d'))
+g.add_edge(('b','c'))
 
 #g.draw_nodes()
