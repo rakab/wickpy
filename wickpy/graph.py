@@ -46,7 +46,8 @@ class Graph(object):
     def add_edge(self, edge):
         if self[edge[0]] is not None and self[edge[1]] is not None:
             self[edge[0]].add_edge(edge[1])
-            self[edge[1]].add_edge(edge[0])
+            if self[edge[0]] != self[edge[1]]:
+                self[edge[1]].add_edge(edge[0])
 
     def assign_xy(self):
         for i,n in enumerate(self.nodes):

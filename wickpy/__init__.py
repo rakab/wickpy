@@ -6,9 +6,11 @@ from PIL import ImageFont, ImageDraw, Image
 
 from .helper import draw_arc
 from .graph import Graph, Node
+from .string2graph import String2Graph
 
 __all__ = [
         'Graph',
         'Node',
         'draw_arc',
+        'String2Graph',
         ]
