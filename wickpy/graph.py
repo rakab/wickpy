@@ -4,6 +4,13 @@ import sympy as sp
 from io import BytesIO
 from PIL import ImageFont, ImageDraw, Image
 
+from . import draw_arc
+
+__all__ = [
+        'Graph',
+        'Node',
+        ]
+
 class Graph(object):
     def __init__(self, nodes=None, edges=None):
         #self.__nodes = []
@@ -20,9 +27,6 @@ class Graph(object):
         #return names
 
     def __getitem__(self, name):
-        """
-        For given parameter name return a corresponding list of the graphs
-        """
         for n in self.nodes:
             if name == n.name:
                 return n
@@ -36,27 +40,45 @@ class Graph(object):
     def add_node(self, name):
         if not len(self.nodes):
             self.nodes.append(Node(name))
-        for n in self.nodes:
-            if name not in n.name:
-                self.nodes.append(Node(name))
+        if name not in [n.name for n in self.nodes]:
+            self.nodes.append(Node(name))
 
     def add_edge(self, edge):
         if self[edge[0]] is not None and self[edge[1]] is not None:
             self[edge[0]].add_edge(edge[1])
             self[edge[1]].add_edge(edge[0])
 
-    def draw_nodes(self):
+    def assign_xy(self):
         for i,n in enumerate(self.nodes):
-            cv2.circle(self.img, (50+50*i,200), 5, (0,0,0), -1)
+            n.xy = (50+50*i,200)
+
+    def draw_nodes(self):
+        self.assign_xy()
+        for n in self.nodes:
+            cv2.circle(self.img, n.xy, 5, (0,0,0), -1)
 
     def draw_edges(self):
         for n in self.nodes:
-            edges = self.edges_from_node(n)
-            for i, e in enumerate(edges):
-                cv2.circle(self.img, (50+50*i,200), 5, (0,0,0), -1)
+            for e in n.edges:
+                print(n.name," ",e)
+                mult = n.edges[e]
+                if mult>1:
+                    sagitta = [-100+i*200/(mult-1) for i in range(mult)]
+                else:
+                    n_between = 0 #number of nodes between two connected node
+                    for nx in self.nodes:
+                        if min(n.xy[0],self[e].xy[0])<nx.xy[0]<max(n.xy[0],self[e].xy[0]):
+                            n_between += 1
+                    if not n_between:
+                        sagitta = [0]
+                    else:
+                        sagitta = [100]
+                for i in range(mult): #edge multiplicity
+                    draw_arc(self.img,n.xy,self[e].xy,sagitta[i],0,0)
+                self[e].edges[n.name] = 0
 
     def draw_img(self):
-        cv2.imshow('', img)
+        cv2.imshow('', self.img)
         cv2.waitKey()
 
 class Node(object):
@@ -97,7 +119,7 @@ class Node(object):
 
     def add_edge(self, edge):
         if edge not in self.edges:
-            self.edges[edge] = 0
+            self.edges[edge] = 1
         else:
             self.edges[edge] += 1
 
