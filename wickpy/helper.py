@@ -68,11 +68,11 @@ def draw_arc(
 def draw_bubble(img,pt,angle):
     # polar equation
     theta = np.linspace(-np.pi, np.pi, 3000)
-    r = 20+30/np.cosh(3*(theta+np.pi/2))
+    r = 10+20/np.cosh(3*(theta+np.pi/2))
     x = r * np.cos(theta)
     y = r * np.sin(theta)
-    c, s = np.cos(angle), np.sin(angle)
-    R = np.array(((c, s), (s, c)))
+    c, s = np.cos(angle+np.pi), np.sin(angle+np.pi)
+    R = np.array(((c, -s), (s, c)))
     points = np.vstack((x,y)).T
     minn=-points.min(0)[1]
     for i,p in enumerate(points):
