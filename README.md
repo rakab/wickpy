@@ -11,8 +11,6 @@ The numerator and denominator are expanded and drawn separately and
 vacuum-bubble cancellation is made apparent. Finally, remaining diagrams are
 drawn with proper symmetry factors.
 
-Done for fun and educational purposes.
-
 ## Usage
 
 Under developement...

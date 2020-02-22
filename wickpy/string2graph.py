@@ -15,7 +15,7 @@ class String2Graph(object):
     def __init__(self, expr):
         self.g = Graph()
         self.expr = expr
-        matches = set(re.findall(r"(v\d+)\.(v\d+)(\^\d+)?",expr))
+        matches = re.findall(r"(v\d+)\.(v\d+)(\^\d+)?",expr)
         for m in matches:
             self.g.add_node(m[0])
             self.g.add_node(m[1])

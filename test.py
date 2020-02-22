@@ -1,7 +1,7 @@
 from wickpy import graph
 from wickpy import String2Graph
 
-s = String2Graph('12*v1.v2*v2.v2*v2.v3')
+s = String2Graph('36*v1.v3*v4.v3*v2.v2^2*v3.v3')
 s.g.draw_nodes()
 s.g.draw_edges()
 s.g.draw_img()
